@@ -66,3 +66,6 @@ function setServo (数値: number) {
     }
 }
 InitServo()
+while (true) {
+	
+}
