@@ -1,3 +1,12 @@
+/**
+ * コントロール基板に中間電位生成回路がある場合は『真』にしておく
+ * 
+ * （pin8,16使用）
+ * 
+ * 目玉基板に分圧抵抗が追加されている場合は『偽』にしておく
+ * 
+ * （pin16使用）
+ */
 function Pattern_Low2 () {
     pins.digitalWritePin(DigitalPin.P8, 1)
     pins.digitalWritePin(DigitalPin.P16, 1)
@@ -146,15 +155,6 @@ input.onButtonPressed(Button.B, function () {
 function setColor_R () {
     setColor(10, 0, 0)
 }
-/**
- * コントロール基板に中間電位生成回路がある場合は『真』にしておく
- * 
- * （pin8,16使用）
- * 
- * 目玉基板に分圧抵抗が追加されている場合は『偽』にしておく
- * 
- * （pin16使用）
- */
 // RGB順
 function setColor (value_r: number, value_g: number, value_b: number) {
     let 配列: number[] = []
@@ -193,21 +193,6 @@ function setColor_Y () {
 }
 let code_24 = 0
 let temp = 0
-InitServo()
-pins.setPull(DigitalPin.P16, PinPullMode.PullNone)
 setColor(1, 5, 0)
-basic.forever(function () {
-    for (let j = 0; j <= 500; j++) {
-        for (let k = 0; k <= 7; k++) {
-            setServo(k)
-            pins.digitalWritePin(DigitalPin.P1, 1)
-            control.waitMicros(1250 + j)
-            pins.digitalWritePin(DigitalPin.P1, 0)
-        }
-        basic.pause(1)
-    }
-    basic.pause(50)
-})
-basic.forever(function () {
-	
-})
+pins.setPull(DigitalPin.P16, PinPullMode.PullNone)
+InitServo()
