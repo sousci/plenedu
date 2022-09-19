@@ -88,8 +88,8 @@ function setColor_G () {
 // 1, 0, 1 | 7
 function InitServo () {
     for (let index = 0; index < 100; index++) {
-        for (let i = 0; i <= 7; i++) {
-            setServo(i)
+        for (let init_i = 0; init_i <= 7; init_i++) {
+            setServo(init_i)
             pins.digitalWritePin(DigitalPin.P1, 1)
             control.waitMicros(1500)
             pins.digitalWritePin(DigitalPin.P1, 0)
@@ -155,6 +155,13 @@ input.onButtonPressed(Button.B, function () {
 function setColor_R () {
     setColor(10, 0, 0)
 }
+function setServoNumAngle (num: number, angle: number) {
+    setServo(num)
+    pins.digitalWritePin(DigitalPin.P1, 1)
+    control.waitMicros(1500 + Math.map(angle, -90, 90, -1000, 1000))
+    pins.digitalWritePin(DigitalPin.P1, 0)
+    basic.pause(5)
+}
 // RGB順
 function setColor (value_r: number, value_g: number, value_b: number) {
     let 配列: number[] = []
@@ -196,3 +203,8 @@ let temp = 0
 setColor(1, 5, 0)
 pins.setPull(DigitalPin.P16, PinPullMode.PullNone)
 InitServo()
+for (let i = 0; i <= 7; i++) {
+    for (let カウンター = 0; カウンター <= 628; カウンター++) {
+        setServoNumAngle(i, Math.sin(カウンター / 100) * 90)
+    }
+}
