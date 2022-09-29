@@ -66,9 +66,6 @@ function setColor_O () {
 function LatchTime () {
     control.waitMicros(10000)
 }
-function setColor_G () {
-    setColor(0, 5, 0)
-}
 // P13, P14, P15 | **
 // 
 // 0, 1, 1 | 0
@@ -86,18 +83,32 @@ function setColor_G () {
 // 1, 1, 1 | 6
 // 
 // 1, 0, 1 | 7
-function InitServo () {
-    for (let index = 0; index < 100; index++) {
-        for (let init_i = 0; init_i <= 7; init_i++) {
-            setServo(init_i)
-            pins.digitalWritePin(DigitalPin.P1, 1)
-            control.waitMicros(1500)
-            pins.digitalWritePin(DigitalPin.P1, 0)
+function InitPLEN () {
+    setColor(1, 5, 0)
+    配列 = [
+    0,
+    0,
+    -45,
+    0,
+    -10,
+    0,
+    45,
+    0
+    ]
+    for (let init_i = 0; init_i <= 7; init_i++) {
+        for (let i = 0; i <= 100; i++) {
+            setServoNumAngle(init_i, 配列[init_i])
+            control.waitMicros(1000)
         }
-        basic.pause(1)
+        led.plotBarGraph(
+        init_i,
+        7
+        )
     }
-    basic.showIcon(IconNames.Happy)
     basic.clearScreen()
+}
+function setColor_G () {
+    setColor(0, 5, 0)
 }
 function Pattern_Low () {
     pins.digitalWritePin(DigitalPin.P16, 0)
@@ -139,6 +150,7 @@ function setServo (数値: number) {
         pins.digitalWritePin(DigitalPin.P14, 0)
         pins.digitalWritePin(DigitalPin.P15, 1)
     }
+    control.waitMicros(10)
 }
 input.onButtonPressed(Button.B, function () {
     for (let カウンター = 0; カウンター <= 255; カウンター++) {
@@ -160,11 +172,9 @@ function setServoNumAngle (num: number, angle: number) {
     pins.digitalWritePin(DigitalPin.P1, 1)
     control.waitMicros(1500 + Math.map(angle, -90, 90, -1000, 1000))
     pins.digitalWritePin(DigitalPin.P1, 0)
-    basic.pause(5)
 }
 // RGB順
 function setColor (value_r: number, value_g: number, value_b: number) {
-    let 配列: number[] = []
     LatchTime()
     code_24 = Math.trunc(Math.constrain(value_b, 0, 255)) * 256 * 256 + Math.trunc(Math.constrain(value_g, 0, 255)) * 256 + Math.trunc(Math.constrain(value_r, 0, 255)) * 1
     for (let l = 0; l <= 23; l++) {
@@ -199,12 +209,6 @@ function setColor_Y () {
     setColor(10, 7, 0)
 }
 let code_24 = 0
+let 配列: number[] = []
 let temp = 0
-setColor(1, 5, 0)
-pins.setPull(DigitalPin.P16, PinPullMode.PullNone)
-InitServo()
-for (let i = 0; i <= 7; i++) {
-    for (let カウンター = 0; カウンター <= 628; カウンター++) {
-        setServoNumAngle(i, Math.sin(カウンター / 100) * 90)
-    }
-}
+InitPLEN()
