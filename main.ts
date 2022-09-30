@@ -203,3 +203,10 @@ let code_24 = 0
 let 配列: number[] = []
 let temp = 0
 InitPLEN()
+for (let i = 0; i <= 7; i++) {
+    for (let カウンター = 0; カウンター <= 628; カウンター++) {
+        // num: 0~7
+        // angle: -90~90
+        setServoNumAngle(i, Math.sin(カウンター / 100) * 30)
+    }
+}
