@@ -1,12 +1,3 @@
-/**
- * コントロール基板に中間電位生成回路がある場合は『真』にしておく
- * 
- * （pin8,16使用）
- * 
- * 目玉基板に分圧抵抗が追加されている場合は『偽』にしておく
- * 
- * （pin16使用）
- */
 function Pattern_Low2 () {
     pins.digitalWritePin(DigitalPin.P8, 1)
     pins.digitalWritePin(DigitalPin.P16, 1)
